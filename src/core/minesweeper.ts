@@ -14,13 +14,13 @@ const getCellColor = (num: number): string => {
 	}
 };
 
-export function initialize(
+export const initialize = (
 	ctx: CanvasRenderingContext2D | null,
 	mines: number,
 	cellSize: number,
 	cols: number,
 	rows: number
-) {
+) => {
 	const board = Array(rows)
 		.fill(null)
 		.map(() =>
@@ -75,7 +75,7 @@ export function initialize(
 	ctx?.fill();
 
 	return board;
-}
+};
 
 export const handleOnHoverCurrying =
 	(

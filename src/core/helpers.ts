@@ -1,7 +1,11 @@
 import { BOMB_PROXIMITY, INDEX_SEPARATOR } from './constants';
 import { Cell } from './types';
 
-export function checkBombProximity(board: Cell[][], row: number, col: number) {
+export const checkBombProximity = (
+	board: Cell[][],
+	row: number,
+	col: number
+) => {
 	const validIndexes: string[] = [[row, col].join(INDEX_SEPARATOR)];
 	const invalidIndexes: string[] = [];
 
@@ -40,9 +44,9 @@ export function checkBombProximity(board: Cell[][], row: number, col: number) {
 	return validIndexes
 		.concat(invalidIndexes)
 		.map((_) => _.split(INDEX_SEPARATOR).map((__) => +__));
-}
+};
 
-export function getRowAndCol(
+export const getRowAndCol = (
 	totalRows: number,
 	totalCols: number,
 	cellSize: number,
@@ -50,7 +54,7 @@ export function getRowAndCol(
 	canvasY: number,
 	evX: number,
 	evY: number
-) {
+) => {
 	const absoluteXInCanvas = evX - canvasX;
 	const absoluteYInCanvas = evY - canvasY;
 
@@ -61,4 +65,4 @@ export function getRowAndCol(
 		Math.min(Math.floor(col / cellSize), totalCols - 1),
 		Math.min(Math.floor(row / cellSize), totalRows - 1),
 	];
-}
+};

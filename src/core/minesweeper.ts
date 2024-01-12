@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import { MutableRefObject, RefObject } from 'react';
 import { Cell, CellColor } from './types';
 import { BOMB_PROXIMITY } from './constants';
 import { checkBombProximity, getRowAndCol } from './helpers';
@@ -253,12 +253,19 @@ export const handleOnContextMenuCurrying =
 		board: Cell[][],
 		ctx: CanvasRenderingContext2D | null,
 		cellSize: number,
-		flags: number,
+		flags: RefObject<number> | null,
 		multiplier: number,
 		useFlag: (used?: boolean) => void
 	) =>
 	(ev: MouseEvent) => {
 		ev.preventDefault();
+
+		if (
+			['null', 'undefined'].indexOf(typeof flags?.current) === -1 &&
+			flags!.current! < 1
+		)
+			return;
+
 		const { x: canvasX, y: canvasY } = (
 			ev.target! as HTMLCanvasElement
 		).getBoundingClientRect();
@@ -279,7 +286,8 @@ export const handleOnContextMenuCurrying =
 			cell.isFlag = false;
 			return useFlag(true);
 		}
-		if (cell.revealed || flags < 1) return;
+
+		if (cell.revealed) return;
 
 		cell.isFlag = true;
 		useFlag();

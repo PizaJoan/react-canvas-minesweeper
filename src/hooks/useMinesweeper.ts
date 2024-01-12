@@ -112,7 +112,7 @@ export const useMineSweeper = () => {
 				board.current,
 				ctx.current,
 				drawCellSize,
-				flagsRef.current,
+				flagsRef,
 				multiplier,
 				useFlag
 			);
@@ -146,10 +146,10 @@ export const useMineSweeper = () => {
 	}, [flags]);
 
 	useEffect(() => {
-		if (visitedCellsToWin === visited.length) return win();
-
 		const foundBomb = visited.find((cell) => isNaN(cell.num));
-		if (foundBomb) lose();
+		if (foundBomb) return lose();
+
+		if (visitedCellsToWin === visited.length) return win();
 	}, [visited, visitedCellsToWin, win, lose]);
 
 	// Force reset game when updates the context/changes difficulty
